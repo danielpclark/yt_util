@@ -5,6 +5,7 @@ require "mechanize"
 require "yt_util/version"
 require "yt_util/scrape"
 require "yt_util/url"
+require "yt_util/try"
 
 module YtUtil
 end
