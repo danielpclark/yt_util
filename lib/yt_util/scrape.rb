@@ -38,29 +38,32 @@ module YtUtil
 
     private
     def self.request(web_request)
-      try { Mechanize.new.tap { |i| i.follow_meta_refresh = true }.get(web_request).parser } ||
-        Nokogiri::HTML(open(web_request))
+      YtUtil::URL.request(web_request)
     end
+    private_class_method :request
 
     def self.request_query(search, filters = "")
       web_request = "https://www.youtube.com/results?search_query=#{Addressable::URI.parse(search).normalize + filters}"
       request(web_request)
     end
+    private_class_method :request_query
 
     def self.request_video_stats(video_code)
       web_request = "https://www.youtube.com/watch?v=#{video_code}"
       request(web_request)
     end
+    private_class_method :request_video_stats
 
     def self.request_user_stats(username)
       web_request = "https://www.youtube.com/user/#{username}/about"
       request(web_request)
     end
+    private_class_method :request_user_stats
 
     def self.parse_query(query_result)
       query_result.css("ol.item-section > li")[1..-1].map do |result|
         {
-          title: try {result.css("div:nth-child(1)").css("div:nth-child(2)").css("h3").text},
+          title: try {result.css("div:nth-child(1)").css("div:nth-child(2)").css("h3").text.match(/(.+) - Duration/).try(:[],1)},
           video: try {result.css('a').map { |i| i.attributes["href"]}.try(:[],0).try(:value).try(:match,/\?v=(.{11})/).try(:[],1)},
           views: try {result.css('li').select {|i| i.try(:text) =~ /^[\d,]{1,} views/ }.first.try(:text).try(:split).try(:first).try(:gsub,",","_").to_i},
           new: try {!!result.css("div:nth-child(1)").css("div:nth-child(2)").css("div:nth-child(4)").css("ul:nth-child(1)").text["New"]},
@@ -70,6 +73,7 @@ module YtUtil
         }
       end
     end
+    private_class_method :parse_query
 
     def self.parse_video_page(video_code, query_result)
       {
@@ -84,6 +88,7 @@ module YtUtil
         license: try {query_result.css('li.watch-meta-item:nth-child(2)').text.gsub("\n", '').strip.tap {|i| i.replace i[i.index(' ').to_i..-1].strip}}
       }
     end
+    private_class_method :parse_video_page
 
     def self.parse_user(query_result)
       views_n_subs = try {query_result.css('.about-stats').
@@ -99,6 +104,7 @@ module YtUtil
         joined: try {query_result.css('.about-stats').css('.joined-date').text.strip}
       }
     end
+    private_class_method :parse_user
 
   end
 end

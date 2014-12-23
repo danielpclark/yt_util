@@ -50,5 +50,10 @@ module YtUtil
         "https://www.youtube.com/watch?v=#{video_code}".<<(parameters.gsub("?","&"))
       end
     end
+
+    def self.request(web_request)
+      try { Mechanize.new.tap { |i| i.follow_meta_refresh = true }.get(web_request).parser } ||
+        Nokogiri::HTML(open(web_request))
+    end
   end
 end
