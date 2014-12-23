@@ -17,6 +17,13 @@ module YtUtil
       parse_video_page(result)
     end
 
+    def self.user_statistics(username)
+      results = Mechanize.new.
+        tap { |i| i.follow_meta_refresh = true }.
+        get("https://www.youtube.com/user/#{username}/about")
+      parse_user(results.parser)
+    end
+
     private
     def self.parse_query(query_result)
       query_result.css("ol.item-section > li")[1..-1].map do |result|
@@ -46,6 +53,21 @@ module YtUtil
         dislikes: String(/(\d+)/.match(query_result.css('button#watch-dislike').text.strip.gsub(',', ''))).to_i*1000,
         published: query_result.css('strong.watch-time-text').text[13..-1],
         license: query_result.css('li.watch-meta-item:nth-child(2)').text.gsub("\n", '').strip.tap {|i| i.replace i[i.index(' ').to_i..-1].strip}
+      }
+    end
+
+    def self.parse_user(query_result)
+      views_n_subs = query_result.css('.about-stats').
+        css('li').take(2).map{|i| i = i.text.strip; {
+        i.match(/[a-z]+/)[0] => i.match(/[\d,]+/)[0]}
+      }.inject(:update)
+
+      {
+        description: query_result.css('.about-description').css('p').text,
+        link: query_result.css('a[title="Google+"]')[0]["href"],
+        views: views_n_subs["views"],
+        subscribers: views_n_subs["subscribers"],
+        joined: query_result.css('.about-stats').css('.joined-date').text.strip
       }
     end
 
