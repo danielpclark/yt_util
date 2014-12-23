@@ -15,15 +15,15 @@ gem 'yt_util'
 Usage notes will come in time.  Feel free to look at the source code as it's rather short.
 
 Methods available:
-
-    YtUtil::Scrape.raw_query(search, filters = "")
-    YtUtil::Scrape.query(search = nil, filters = "", &qry)
-    YtUtil::Scrape.raw_video_stats(video_code)
-    YtUtil::Scrape.video_stats(video_code = nil, &qry)
-    YtUtil::Scrape.raw_user_stats(username)
-    YtUtil::Scrape.user_stats(username = nil, &qry)
-    YtUtil::URL.generate(video_code, options = {})
-
+```ruby
+YtUtil::Scrape.raw_query(search, filters = "")
+YtUtil::Scrape.query(search = nil, filters = "", &qry)
+YtUtil::Scrape.raw_video_stats(video_code)
+YtUtil::Scrape.video_stats(video_code = nil, &qry)
+YtUtil::Scrape.raw_user_stats(username)
+YtUtil::Scrape.user_stats(username = nil, &qry)
+YtUtil::URL.generate(video_code, options = {})
+```
 
 ## NOTE
 > Any scraping features can break at anytime if Youtube chooses to change their page layout.
