@@ -4,6 +4,8 @@ module YtUtil
     # Recommended included options for embedded video
     # {:embed => true, :autoplay => true, :origin => request.env["REQUEST_URI"]}
     def self.generate(video_code, options = {})
+      raise "Invalid object type" unless video_code.is_a? String
+      raise "Invalid video code" unless video_code.length == 11
       options.default = false
       parameters = "?"
       parameters.define_singleton_method(:ingest) {|item| self.<<("&") unless self[-1]["?"]; self.replace self.<<(item) }
