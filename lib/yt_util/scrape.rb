@@ -61,8 +61,8 @@ module YtUtil
       query_result.css("ol.item-section > li")[1..-1].map do |result|
         {
           title: try {result.css("div:nth-child(1)").css("div:nth-child(2)").css("h3").text},
-          video: try {result.css("div:nth-child(1)").css("div:nth-child(2)").css("h3 > a").first[:href].dup.tap{|i|i.replace i[(i.index("=").to_i+1)..-1]}},
-          views: try {result.css('li').select {|i| i.text =~ /^[\d,]{1,} views/ }.first.text.split.first.gsub(",","_").to_i},
+          video: try {result.css('a').map { |i| i.attributes["href"]}.try(:[],0).try(:value).try(:match,/\?v=(.{11})/).try(:[],1)},
+          views: try {result.css('li').select {|i| i.try(:text) =~ /^[\d,]{1,} views/ }.first.try(:text).try(:split).try(:first).try(:gsub,",","_").to_i},
           new: try {!!result.css("div:nth-child(1)").css("div:nth-child(2)").css("div:nth-child(4)").css("ul:nth-child(1)").text["New"]},
           hd: try {!!result.css("div:nth-child(1)").css("div:nth-child(2)").css("div:nth-child(4)").css("ul:nth-child(1)").text["HD"]},
           description: try {result.css("div:nth-child(1)").css("div:nth-child(2)").css(".yt-lockup-description").text},
