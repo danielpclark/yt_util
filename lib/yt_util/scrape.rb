@@ -73,17 +73,14 @@ module YtUtil
 
     def self.parse_video_page(video_code, query_result)
       {
-        video: video_code,
-        user_name: try {query_result.css('a.yt-user-name').text},
+        video: video_code || try {query_result.css('meta').select {|i| i.attributes["property"].try(:value) =~ /og:url/}.first["content"].match(/\?v=(.+)/)[1]},
+        user_name: try {query_result.css('li').css('a').select{|i| i.text =~ / by [a-z0-9]{1,}/i}.map {|i| i.text.match(/by ([a-z0-9]{1,})/i)[1]}.first},
         description: try {query_result.css('p#eow-description').text},
-        category: try {query_result.css('li.watch-meta-item:nth-child(1)').css('ul:nth-child(2)').css('li:nth-child(1)').css('a:nth-child(1)').first[:href].try(:[], 1..-1)},
-        # Views are rounded to nearest thousand.
-        views: try {String(/(\d+)/.match(query_result.css('div.watch-view-count').text.strip.gsub(',', ''))).to_i*1000},
-        # Likes are rounded to nearest thousand.
-        likes: try {String(/(\d+)/.match(query_result.css('button#watch-like').text.strip.gsub(',', ''))).to_i*1000},
-        # Dislikes are rounded to nearest thousand.
-        dislikes: try {String(/(\d+)/.match(query_result.css('button#watch-dislike').text.strip.gsub(',', ''))).to_i*1000},
-        published: try {query_result.css('strong.watch-time-text').text[13..-1]},
+        category: try {query_result.css('.watch-meta-item').css('a').text},
+        views: try {String(/(\d+)/.match(query_result.css('div.watch-view-count').text.strip.gsub(',', ''))).to_i},
+        likes: try {String(/(\d+)/.match(query_result.css('button#watch-like').text.strip.gsub(',', ''))).to_i},
+        dislikes: try {String(/(\d+)/.match(query_result.css('button#watch-dislike').text.strip.gsub(',', ''))).to_i},
+        published: try {query_result.css('strong.watch-time-text').text.match(/ on ([a-z0-9, ]{11,})/i)[1]},
         license: try {query_result.css('li.watch-meta-item:nth-child(2)').text.gsub("\n", '').strip.tap {|i| i.replace i[i.index(' ').to_i..-1].strip}}
       }
     end
