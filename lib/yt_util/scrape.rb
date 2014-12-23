@@ -97,6 +97,7 @@ module YtUtil
       }.inject(:update)}
 
       {
+        image: try { query_result.css('.channel-header-profile-image').first.attributes["src"].value },
         description: try {query_result.css('.about-description').css('p').text},
         link: try {query_result.css('a[title="Google+"]')[0]["href"]},
         views: try {views_n_subs["views"]},
