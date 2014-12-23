@@ -23,6 +23,8 @@ YtUtil::Scrape.video_stats(video_code = nil, &qry)
 YtUtil::Scrape.raw_user_stats(username)
 YtUtil::Scrape.user_stats(username = nil, &qry)
 YtUtil::URL.generate(video_code, options = {})
+YtUtil::URL.request(web_request)
+YtUtil::GooglePlus.get_username(youtube_username)
 ```
 
 ## NOTE
