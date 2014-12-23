@@ -26,7 +26,8 @@ YtUtil::URL.generate(video_code, options = {})
 ```
 
 ## NOTE
-> Any scraping features can break at anytime if Youtube chooses to change their page layout.
+> Any scraping results may become unavailable at anytime if Youtube chooses to change their page layout.
+This library is designed to return nil for any data it fails to scrape.
 
 ## Contribute
 
