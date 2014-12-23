@@ -28,7 +28,7 @@ module YtUtil
 
     def self.raw_user_stats(username)
       raise "Invalid object type" unless username.is_a? String
-
+      parse_user(username)
     end
 
     def self.user_stats(username = nil, &qry)
