@@ -10,8 +10,8 @@ module YtUtil
       request_query(search,filters)
     end
 
-    def self.query(search, filters = "")
-      result = raw_query(search,filters)
+    def self.query(search = nil, filters = "", &qry)
+      result = qry.try(:call) || raw_query(search,filters)
       parse_query(result)
     end
 
@@ -21,8 +21,8 @@ module YtUtil
       request_video_stats(video_code)
     end
 
-    def self.video_stats(video_code)
-      result = raw_video_stats(video_code)
+    def self.video_stats(video_code = nil, &qry)
+      result = qry.try(:call) || raw_video_stats(video_code)
       parse_video_page(video_code, result)
     end
 
@@ -31,8 +31,8 @@ module YtUtil
 
     end
 
-    def self.user_stats(username)
-      result = raw_user_stats(username)
+    def self.user_stats(username = nil, &qry)
+      result = qry.try(:call) || raw_user_stats(username)
       parse_user(result)
     end
 
