@@ -1,16 +1,16 @@
 PATH
   remote: .
   specs:
-    yt_util (0.0.1)
-      addressable (~> 2.3.6)
-      mechanize (~> 2.7.3)
-      nokogiri (~> 1.6.5)
+    yt_util (0.1.4)
+      addressable (~> 2.3)
+      mechanize (~> 2.7)
+      nokogiri (~> 1.6)
 
 GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.3.6)
-    domain_name (0.5.23)
+    domain_name (0.5.22)
       unf (>= 0.0.5, < 1.0.0)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
