@@ -27,6 +27,7 @@ YtUtil::Scrape.user_stats(username = nil, &qry)
 YtUtil::URL.generate(video_code, options = {})
 YtUtil::URL.request(web_request)
 YtUtil::GooglePlus.get_username(youtube_username)
+YtUtil::Channel::URL.play_all(username)
 ```
 
 ## NOTE
