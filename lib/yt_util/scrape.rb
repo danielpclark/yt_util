@@ -93,7 +93,7 @@ module YtUtil
     def self.parse_user(query_result)
       views_n_subs = try {query_result.css('.about-stats').
         css('li').take(2).map{|i| i = i.text.strip; {
-        i.match(/[a-z]+/)[0] => i.match(/[\d,]+/)[0]}
+        i.match(/[a-z]+/)[0] => i.match(/[\d,]+/)[0].gsub(",","").to_i}
       }.inject(:update)}
 
       {
