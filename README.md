@@ -1,5 +1,5 @@
 # Youtube Utility
-[![Gem Version](https://badge.fury.io/rb/yt_util.svg)](http://badge.fury.io/rb/yt_util)
+[![Gem Version](https://badge.fury.io/rb/yt_util.svg)](http://badge.fury.io/rb/yt_util)[![Build Status](https://travis-ci.org/danielpclark/yt_util.svg)](https://travis-ci.org/danielpclark/yt_util)
 
 General purpose toolbox for working with Youtube.
 
